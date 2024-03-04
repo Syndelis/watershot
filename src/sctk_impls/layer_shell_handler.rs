@@ -50,6 +50,7 @@ impl LayerShellHandler for RuntimeData {
                 present_mode: wgpu::PresentMode::Mailbox,
                 alpha_mode: wgpu::CompositeAlphaMode::Opaque,
                 view_formats: vec![cap.formats[0]],
+                desired_maximum_frame_latency: 2,
             },
         );
 

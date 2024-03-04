@@ -275,10 +275,12 @@ impl Renderer {
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(wgpu::Color::BLACK),
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
                 })],
                 depth_stencil_attachment: None,
+                timestamp_writes: None,
+                occlusion_query_set: None,
             });
             render_pass.set_pipeline(&self.tex_pipeline);
             render_pass.set_vertex_buffer(0, self.tex_vertex_buffer.slice(..));
@@ -294,10 +296,12 @@ impl Renderer {
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Clear(wgpu::Color::TRANSPARENT),
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
                 })],
                 depth_stencil_attachment: None,
+                timestamp_writes: None,
+                occlusion_query_set: None,
             });
             render_pass.set_pipeline(&self.overlay_pipeline);
             render_pass.set_vertex_buffer(0, rendering.shade_vertex_buffer.slice(..));
@@ -317,10 +321,12 @@ impl Renderer {
                     resolve_target: Some(&rendering.ms_resolve_target_tex),
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
-                        store: false,
+                        store: wgpu::StoreOp::Store,
                     },
                 })],
                 depth_stencil_attachment: None,
+                timestamp_writes: None,
+                occlusion_query_set: None,
             });
             render_pass.set_pipeline(&self.overlay_pipeline);
             render_pass.set_vertex_buffer(0, rendering.sel_vertex_buffer.slice(..));
@@ -340,10 +346,12 @@ impl Renderer {
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
                 })],
                 depth_stencil_attachment: None,
+                timestamp_writes: None,
+                occlusion_query_set: None,
             });
             render_pass.set_pipeline(&self.tex_pipeline);
             render_pass.set_vertex_buffer(0, self.tex_vertex_buffer.slice(..));
@@ -366,10 +374,12 @@ impl Renderer {
                     resolve_target: None,
                     ops: wgpu::Operations {
                         load: wgpu::LoadOp::Load,
-                        store: true,
+                        store: wgpu::StoreOp::Store,
                     },
                 })],
                 depth_stencil_attachment: None,
+                timestamp_writes: None,
+                occlusion_query_set: None,
             });
 
             rendering.brush.draw(&mut render_pass);

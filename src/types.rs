@@ -2,9 +2,8 @@ use std::{env, fs};
 
 use clap::{Parser, Subcommand};
 use image::DynamicImage;
-use raw_window_handle::{
-    HasRawDisplayHandle, HasRawWindowHandle, RawDisplayHandle, RawWindowHandle,
-    WaylandDisplayHandle, WaylandWindowHandle,
+use wgpu::rwh::{
+    DisplayHandle, HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle, WaylandDisplayHandle, WaylandWindowHandle, WindowHandle
 };
 use serde::Deserialize;
 use smithay_client_toolkit::{
@@ -135,7 +134,7 @@ impl From<Color> for wgpu_text::glyph_brush::Color {
 pub struct Monitor {
     pub layer: LayerSurface,
     pub wl_surface: wl_surface::WlSurface,
-    pub surface: wgpu::Surface,
+    pub surface: wgpu::Surface<'static>,
     pub output_info: OutputInfo,
     pub rect: Rect<i32>,
     pub image: DynamicImage,
@@ -176,7 +175,12 @@ impl Monitor {
 
         let handle = RawWgpuHandles::new(conn, &wl_surface);
 
-        let surface = unsafe { runtime_data.instance.create_surface(&handle).unwrap() };
+        let surface = unsafe {
+            runtime_data.instance.create_surface_unsafe(wgpu::SurfaceTargetUnsafe::RawHandle {
+                raw_display_handle: handle.display,
+                raw_window_handle: handle.window,
+            }).unwrap()
+          };
 
         Self {
             layer,
@@ -405,11 +409,11 @@ pub enum SelectionState {
 
 impl RawWgpuHandles {
     pub fn new(conn: &Connection, surface: &wl_surface::WlSurface) -> Self {
-        let mut display_handle = WaylandDisplayHandle::empty();
-        display_handle.display = conn.backend().display_ptr() as *mut _;
+        let display = std::ptr::NonNull::new(conn.backend().display_ptr() as *mut _).unwrap();
+        let display_handle = WaylandDisplayHandle::new(display);
 
-        let mut window_handle = WaylandWindowHandle::empty();
-        window_handle.surface = surface.id().as_ptr() as *mut _;
+        let window = std::ptr::NonNull::new(surface.id().as_ptr() as *mut _).unwrap();
+        let window_handle = WaylandWindowHandle::new(window);
 
         Self {
             window: RawWindowHandle::Wayland(window_handle),
@@ -418,14 +422,22 @@ impl RawWgpuHandles {
     }
 }
 
-unsafe impl HasRawWindowHandle for RawWgpuHandles {
-    fn raw_window_handle(&self) -> RawWindowHandle {
-        self.window
+impl HasWindowHandle for RawWgpuHandles {
+    fn window_handle(&self) -> Result<wgpu::rwh::WindowHandle<'_>, wgpu::rwh::HandleError> {
+        let handle = unsafe {
+            WindowHandle::borrow_raw(self.window)
+        };
+
+        Ok(handle)
     }
 }
 
-unsafe impl HasRawDisplayHandle for RawWgpuHandles {
-    fn raw_display_handle(&self) -> RawDisplayHandle {
-        self.display
+impl HasDisplayHandle for RawWgpuHandles {
+    fn display_handle(&self) -> Result<wgpu::rwh::DisplayHandle<'_>, wgpu::rwh::HandleError> {
+        let handle = unsafe {
+            DisplayHandle::borrow_raw(self.display)
+        };
+
+        Ok(handle)
     }
 }
