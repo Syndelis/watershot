@@ -1,4 +1,4 @@
-use std::{env, fs, io::Cursor, process::Command};
+use std::{env, fs};
 
 use clap::{Parser, Subcommand};
 use image::DynamicImage;
@@ -18,6 +18,7 @@ use wayland_client::{
     protocol::{wl_output, wl_surface},
     Connection, Proxy, QueueHandle,
 };
+use libwayshot::WayshotConnection;
 
 use crate::{rendering::MonSpecificRendering, runtime_data::RuntimeData, window::WindowDescriptor};
 
@@ -33,10 +34,6 @@ pub struct Args {
     /// Output the screenshot into stdout in PNG format
     #[arg(short, long)]
     pub stdout: bool,
-
-    /// Path to the `grim` executable
-    #[arg(short, long)]
-    pub grim: Option<String>,
 
     /// Save the image into a file
     #[command(subcommand)]
@@ -174,27 +171,9 @@ impl Monitor {
 
         layer.commit();
 
-        // Each monitor also gets their own screenshot to preserve clarity as much as possible
-        let grim_output = Command::new(
-            runtime_data
-                .args
-                .grim
-                .as_ref()
-                .unwrap_or(&"grim".to_string()),
-        )
-        .arg("-t")
-        .arg("ppm")
-        .arg("-o")
-        .arg(info.name.as_ref().unwrap())
-        .arg("-")
-        .output()
-        .expect("Failed to run grim command!")
-        .stdout;
+        let wayshot_connection = WayshotConnection::new().unwrap();
+        let image = wayshot_connection.screenshot_all(false).unwrap();
 
-        let image =
-            image::io::Reader::with_format(Cursor::new(grim_output), image::ImageFormat::Pnm)
-                .decode()
-                .expect("Failed to parse grim image!");
         let handle = RawWgpuHandles::new(conn, &wl_surface);
 
         let surface = unsafe { runtime_data.instance.create_surface(&handle).unwrap() };

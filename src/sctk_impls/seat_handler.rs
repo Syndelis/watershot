@@ -38,9 +38,10 @@ impl SeatHandler for RuntimeData {
         {
             info!("Set pointer capability");
 
+            let surface = self.compositor_state.create_surface(qh);
             let themed_pointer = self
                 .seat_state
-                .get_pointer_with_theme(qh, &seat, ThemeSpec::default())
+                .get_pointer_with_theme(qh, &seat, self.shm_state.wl_shm(), surface, ThemeSpec::default())
                 .expect("Failed to create themed pointer");
             self.pointer = Some(themed_pointer.pointer().clone());
             self.themed_pointer = Some(themed_pointer);

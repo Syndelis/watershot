@@ -1,7 +1,5 @@
 use smithay_client_toolkit::{
-    delegate_layer,
-    reexports::client::{Connection, QueueHandle},
-    shell::wlr_layer::{LayerShellHandler, LayerSurface, LayerSurfaceConfigure},
+    delegate_layer, reexports::client::{Connection, QueueHandle}, seat::pointer::CursorIcon, shell::wlr_layer::{LayerShellHandler, LayerSurface, LayerSurfaceConfigure}
 };
 
 use crate::{
@@ -25,10 +23,7 @@ impl LayerShellHandler for RuntimeData {
     ) {
         let _ = self.themed_pointer.as_ref().unwrap().set_cursor(
             conn,
-            "crosshair",
-            self.shm_state.wl_shm(),
-            &self.pointer_surface,
-            1,
+            CursorIcon::Crosshair,
         );
 
         log::info!("{:?}", _configure);

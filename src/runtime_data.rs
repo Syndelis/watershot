@@ -1,8 +1,9 @@
-use std::{fs, io::Cursor, process::Command};
+use std::fs;
 
 use fontconfig::Fontconfig;
 use image::DynamicImage;
 
+use libwayshot::WayshotConnection;
 use smithay_client_toolkit::{
     compositor::CompositorState,
     output::OutputState,
@@ -78,17 +79,8 @@ impl RuntimeData {
     }
 
     pub fn new(qh: &QueueHandle<Self>, globals: &GlobalList, mut args: Args) -> Self {
-        let output = Command::new(args.grim.as_ref().unwrap_or(&"grim".to_string()))
-            .arg("-t")
-            .arg("ppm")
-            .arg("-")
-            .output()
-            .expect("Failed to run grim command!")
-            .stdout;
-
-        let image = image::io::Reader::with_format(Cursor::new(output), image::ImageFormat::Pnm)
-            .decode()
-            .expect("Failed to parse grim image!");
+        let wayshot_connection = WayshotConnection::new().unwrap();
+        let image = wayshot_connection.screenshot_all(false).unwrap();
 
         let config = Config::load().unwrap_or_default();
 

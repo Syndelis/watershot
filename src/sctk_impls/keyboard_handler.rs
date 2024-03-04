@@ -5,7 +5,7 @@ use smithay_client_toolkit::{
         protocol::{wl_keyboard, wl_surface},
         Connection, QueueHandle,
     },
-    seat::keyboard::{keysyms, KeyEvent, KeyboardHandler, Modifiers},
+    seat::keyboard::{Keysym, KeyEvent, KeyboardHandler, Modifiers},
 };
 
 use crate::{
@@ -24,7 +24,7 @@ impl KeyboardHandler for RuntimeData {
         _: &wl_surface::WlSurface,
         _: u32,
         _: &[u32],
-        _: &[u32],
+        _: &[Keysym],
     ) {
     }
 
@@ -48,9 +48,9 @@ impl KeyboardHandler for RuntimeData {
     ) {
         match event.keysym {
             // Exit without copying/saving
-            keysyms::XKB_KEY_Escape => self.exit = ExitState::ExitOnly,
+            Keysym::Escape => self.exit = ExitState::ExitOnly,
             // Switch selection mode
-            keysyms::XKB_KEY_Tab => match &self.selection {
+            Keysym::Tab => match &self.selection {
                 Selection::Rectangle(_) => self.selection = Selection::Display(None),
                 Selection::Display(_) => {
                     if self.compositor_backend.is_some() {
@@ -62,7 +62,7 @@ impl KeyboardHandler for RuntimeData {
                 Selection::Window(_) => self.selection = Selection::Rectangle(None),
             },
             // Exit with save if a valid selection exists
-            keysyms::XKB_KEY_Return => {
+            Keysym::Return => {
                 let flattened_selection = self.selection.flattened();
                 match flattened_selection {
                     Selection::Rectangle(Some(selection)) => {
