@@ -2,9 +2,7 @@ use std::{env, fs};
 
 use clap::{Parser, Subcommand};
 use image::DynamicImage;
-use wgpu::rwh::{
-    DisplayHandle, HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle, WaylandDisplayHandle, WaylandWindowHandle, WindowHandle
-};
+use libwayshot::WayshotConnection;
 use serde::Deserialize;
 use smithay_client_toolkit::{
     output::OutputInfo,
@@ -17,7 +15,10 @@ use wayland_client::{
     protocol::{wl_output, wl_surface},
     Connection, Proxy, QueueHandle,
 };
-use libwayshot::WayshotConnection;
+use wgpu::rwh::{
+    DisplayHandle, HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle,
+    WaylandDisplayHandle, WaylandWindowHandle, WindowHandle,
+};
 
 use crate::{rendering::MonSpecificRendering, runtime_data::RuntimeData, window::WindowDescriptor};
 
@@ -176,11 +177,14 @@ impl Monitor {
         let handle = RawWgpuHandles::new(conn, &wl_surface);
 
         let surface = unsafe {
-            runtime_data.instance.create_surface_unsafe(wgpu::SurfaceTargetUnsafe::RawHandle {
-                raw_display_handle: handle.display,
-                raw_window_handle: handle.window,
-            }).unwrap()
-          };
+            runtime_data
+                .instance
+                .create_surface_unsafe(wgpu::SurfaceTargetUnsafe::RawHandle {
+                    raw_display_handle: handle.display,
+                    raw_window_handle: handle.window,
+                })
+                .unwrap()
+        };
 
         Self {
             layer,
@@ -424,9 +428,7 @@ impl RawWgpuHandles {
 
 impl HasWindowHandle for RawWgpuHandles {
     fn window_handle(&self) -> Result<wgpu::rwh::WindowHandle<'_>, wgpu::rwh::HandleError> {
-        let handle = unsafe {
-            WindowHandle::borrow_raw(self.window)
-        };
+        let handle = unsafe { WindowHandle::borrow_raw(self.window) };
 
         Ok(handle)
     }
@@ -434,9 +436,7 @@ impl HasWindowHandle for RawWgpuHandles {
 
 impl HasDisplayHandle for RawWgpuHandles {
     fn display_handle(&self) -> Result<wgpu::rwh::DisplayHandle<'_>, wgpu::rwh::HandleError> {
-        let handle = unsafe {
-            DisplayHandle::borrow_raw(self.display)
-        };
+        let handle = unsafe { DisplayHandle::borrow_raw(self.display) };
 
         Ok(handle)
     }

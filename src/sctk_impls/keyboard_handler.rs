@@ -5,7 +5,7 @@ use smithay_client_toolkit::{
         protocol::{wl_keyboard, wl_surface},
         Connection, QueueHandle,
     },
-    seat::keyboard::{Keysym, KeyEvent, KeyboardHandler, Modifiers},
+    seat::keyboard::{KeyEvent, KeyboardHandler, Keysym, Modifiers},
 };
 
 use crate::{
