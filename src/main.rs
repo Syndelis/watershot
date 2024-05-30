@@ -5,6 +5,7 @@ use clap::Parser;
 use image::{DynamicImage, ImageFormat};
 use log::{error, info};
 use runtime_data::RuntimeData;
+use rustix::runtime::{fork, Fork};
 use smithay_client_toolkit::reexports::client::{globals::registry_queue_init, Connection};
 use traits::{Contains, ToLocal};
 use types::{Args, Config, ExitState, Monitor, Rect, SaveLocation, Selection};
@@ -71,11 +72,11 @@ fn main() {
 
         // Fork to serve copy requests
         if args.copy {
-            match unsafe { nix::unistd::fork() } {
-                Ok(nix::unistd::ForkResult::Parent { .. }) => {
+            match unsafe { fork() } {
+                Ok(Fork::Parent(_)) => {
                     info!("Forked to serve copy requests")
                 }
-                Ok(nix::unistd::ForkResult::Child) => {
+                Ok(Fork::Child(_)) => {
                     // Serve copy requests
                     let mut opts = copy::Options::new();
                     opts.foreground(true);
