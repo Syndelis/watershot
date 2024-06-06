@@ -115,6 +115,7 @@ impl KeyboardHandler for RuntimeData {
         _: &wl_keyboard::WlKeyboard,
         _serial: u32,
         modifiers: Modifiers,
+        _layout: u32,
     ) {
         info!("Update modifiers: {:?}", modifiers);
     }
