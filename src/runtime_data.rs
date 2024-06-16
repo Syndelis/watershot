@@ -191,7 +191,7 @@ impl RuntimeData {
 
     pub fn draw(&mut self, identification: MonitorIdentification, qh: &QueueHandle<Self>) {
         let Some(renderer) = &mut self.renderer else {
-            return
+            return;
         };
 
         let monitor = match identification {

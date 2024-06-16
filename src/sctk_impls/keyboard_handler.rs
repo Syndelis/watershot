@@ -5,7 +5,7 @@ use smithay_client_toolkit::{
         protocol::{wl_keyboard, wl_surface},
         Connection, QueueHandle,
     },
-    seat::keyboard::{Keysym, KeyEvent, KeyboardHandler, Modifiers},
+    seat::keyboard::{KeyEvent, KeyboardHandler, Keysym, Modifiers},
 };
 
 use crate::{
@@ -115,6 +115,7 @@ impl KeyboardHandler for RuntimeData {
         _: &wl_keyboard::WlKeyboard,
         _serial: u32,
         modifiers: Modifiers,
+        _layout: u32,
     ) {
         info!("Update modifiers: {:?}", modifiers);
     }

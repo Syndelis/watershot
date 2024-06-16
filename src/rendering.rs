@@ -268,7 +268,7 @@ impl Renderer {
         queue: &wgpu::Queue,
     ) {
         let Some(rendering) = &mut monitor.rendering else {
-            return
+            return;
         };
         // Render the screenshot as the background
         {
