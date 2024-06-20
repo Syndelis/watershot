@@ -14,8 +14,7 @@ rustix = { version = "0", features = ["runtime"] }
 wayland-client = { version = "0" }
 wayland-backend = { version = "0", features = ["client_system"] }
 smithay-client-toolkit = "0"
-# wl-clipboard-rs = { version = "0" }
-wl-clipboard-rs = { git = "https://github.com/YaLTeR/wl-clipboard-rs" }
+wl-clipboard-rs = { version = "0" }
 
 image = { version = "0", default-features = false, features = ["pnm", "jpeg", "png", "webp"] }
 ron = "0"
