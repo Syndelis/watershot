@@ -35,26 +35,23 @@ impl CompositorHandler for RuntimeData {
         _surface: &wl_surface::WlSurface,
         _new_transform: wayland_client::protocol::wl_output::Transform,
     ) {
-        todo!()
     }
 
-    // fn surface_enter(
-    //     &mut self,
-    //     _conn: &Connection,
-    //     _qh: &QueueHandle<Self>,
-    //     _surface: &wl_surface::WlSurface,
-    //     _output: &wayland_client::protocol::wl_output::WlOutput,
-    // ) {
-    //     todo!()
-    // }
+    fn surface_enter(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        _surface: &wl_surface::WlSurface,
+        _output: &wayland_client::protocol::wl_output::WlOutput,
+    ) {
+    }
 
-    // fn surface_leave(
-    //     &mut self,
-    //     _conn: &Connection,
-    //     _qh: &QueueHandle<Self>,
-    //     _surface: &wl_surface::WlSurface,
-    //     _output: &wayland_client::protocol::wl_output::WlOutput,
-    // ) {
-    //     todo!()
-    // }
+    fn surface_leave(
+        &mut self,
+        _conn: &Connection,
+        _qh: &QueueHandle<Self>,
+        _surface: &wl_surface::WlSurface,
+        _output: &wayland_client::protocol::wl_output::WlOutput,
+    ) {
+    }
 }
