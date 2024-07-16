@@ -9,7 +9,7 @@ use smithay_client_toolkit::{
     output::OutputState,
     reexports::client::{
         globals::GlobalList,
-        protocol::{wl_keyboard, wl_pointer, wl_surface},
+        protocol::{wl_keyboard, wl_pointer},
         QueueHandle,
     },
     registry::RegistryState,
@@ -46,8 +46,6 @@ pub struct RuntimeData {
     // Devices
     pub keyboard: Option<wl_keyboard::WlKeyboard>,
     pub pointer: Option<wl_pointer::WlPointer>,
-
-    pub pointer_surface: wl_surface::WlSurface,
     pub themed_pointer: Option<ThemedPointer>,
 
     /// Combined area of all monitors
@@ -60,7 +58,6 @@ pub struct RuntimeData {
     pub font: wgpu_text::glyph_brush::ab_glyph::FontArc,
     pub image: DynamicImage,
     pub exit: ExitState,
-    pub args: Args,
 
     pub instance: wgpu::Instance,
     pub device: wgpu::Device,
@@ -97,8 +94,6 @@ impl RuntimeData {
             backends: wgpu::Backends::all(),
             ..Default::default()
         });
-
-        let pointer_surface = compositor_state.create_surface(qh);
 
         let adapter =
             pollster::block_on(instance.request_adapter(&wgpu::RequestAdapterOptionsBase {
@@ -173,8 +168,6 @@ impl RuntimeData {
             pointer: None,
             themed_pointer: None,
             exit,
-            args,
-            pointer_surface,
             instance,
             adapter,
             device,
