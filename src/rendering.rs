@@ -137,6 +137,7 @@ impl Renderer {
                 alpha_to_coverage_enabled: false,
             },
             multiview: None,
+            cache: None,
         });
 
         let tex_sampler = device.create_sampler(&wgpu::SamplerDescriptor {
@@ -215,6 +216,7 @@ impl Renderer {
                 alpha_to_coverage_enabled: false,
             },
             multiview: None,
+            cache: None,
         });
 
         let shade_buffer = device.create_buffer_init(&wgpu::util::BufferInitDescriptor {
