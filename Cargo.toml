@@ -7,7 +7,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wgpu = "22"
+wgpu = "23"
 wgpu_text = "0"
 
 rustix = { version = "0", features = ["runtime"] }

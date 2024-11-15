@@ -107,13 +107,13 @@ impl Renderer {
             layout: Some(&tex_pipeline_layout),
             vertex: wgpu::VertexState {
                 module: &tex_shader,
-                entry_point: "vs_main",
+                entry_point: Some("vs_main"),
                 compilation_options: Default::default(),
                 buffers: &[TexVertex::desc()],
             },
             fragment: Some(wgpu::FragmentState {
                 module: &tex_shader,
-                entry_point: "fs_main",
+                entry_point: Some("fs_main"),
                 compilation_options: Default::default(),
                 targets: &[Some(wgpu::ColorTargetState {
                     format,
@@ -186,13 +186,13 @@ impl Renderer {
             layout: Some(&overlay_layout),
             vertex: wgpu::VertexState {
                 module: &color_shapes_shader,
-                entry_point: "vs_main",
+                entry_point: Some("vs_main"),
                 compilation_options: Default::default(),
                 buffers: &[OverlayVertex::desc()],
             },
             fragment: Some(wgpu::FragmentState {
                 module: &color_shapes_shader,
-                entry_point: "fs_main",
+                entry_point: Some("fs_main"),
                 compilation_options: Default::default(),
                 targets: &[Some(wgpu::ColorTargetState {
                     format,
