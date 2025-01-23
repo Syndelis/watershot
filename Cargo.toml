@@ -7,7 +7,7 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wgpu = "23"
+wgpu = "24"
 wgpu_text = "0"
 
 rustix = { version = "0", features = ["runtime"] }
@@ -16,7 +16,7 @@ wayland-backend = { version = "0", features = ["client_system"] }
 smithay-client-toolkit = "0"
 wl-clipboard-rs = { version = "0" }
 
-image = { version = "0", default-features = false, features = ["pnm", "jpeg", "png", "webp"] }
+image = { version = "0", default-features = false, features = ["pnm", "jpeg", "png", "webp", "avif"] }
 ron = "0"
 serde = { version = "1", features = ["derive"] }
 fontconfig = "0"

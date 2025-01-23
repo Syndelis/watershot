@@ -90,7 +90,7 @@ impl RuntimeData {
         let compositor_state =
             CompositorState::bind(globals, qh).expect("wl_compositor is not available");
 
-        let instance = wgpu::Instance::new(wgpu::InstanceDescriptor {
+        let instance = wgpu::Instance::new(&wgpu::InstanceDescriptor {
             backends: wgpu::Backends::all(),
             ..Default::default()
         });
