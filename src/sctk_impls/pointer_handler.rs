@@ -94,7 +94,7 @@ impl PointerHandler for RuntimeData {
                     info!("Press {:x} @ {:?}", button, event.position);
 
                     match &mut self.selection {
-                        Selection::Rectangle(ref mut selection) => {
+                        Selection::Rectangle(selection) => {
                             let handles_state = RuntimeData::process_selection_handles(
                                 selection,
                                 global_pos,

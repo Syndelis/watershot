@@ -123,30 +123,30 @@ impl RuntimeData {
                 let windows = compositor_backend.get_all_windows();
 
                 let selection = {
-                    if let Some(search_param) = args.window_search.take() {
+                    match args.window_search.take() { Some(search_param) => {
                         Selection::from_window(windows.find_by_search_param(search_param).cloned())
-                    } else if args.window_under_cursor {
+                    } _ => if args.window_under_cursor {
                         let mouse_pos = compositor_backend.get_mouse_position();
                         Selection::from_window(windows.find_by_position(&mouse_pos).cloned())
                     } else if args.active_window {
                         Selection::from_window(compositor_backend.get_focused())
                     } else {
                         Selection::default()
-                    }
+                    }}
                 };
 
                 if !args.auto_capture {
                     (selection, windows, ExitState::None)
-                } else if let Selection::Rectangle(Some(rect_sel)) = selection.flattened() {
+                } else { match selection.flattened() { Selection::Rectangle(Some(rect_sel)) => {
                     (
                         selection,
                         windows,
                         ExitState::ExitWithSelection(rect_sel.extents.to_rect()),
                     )
-                } else {
+                } _ => {
                     // TODO: Auto-capture for monitors
                     (selection, windows, ExitState::None)
-                }
+                }}}
             };
         }
 
