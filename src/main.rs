@@ -5,7 +5,7 @@ use clap::Parser;
 use image::{DynamicImage, ImageFormat};
 use log::{error, info};
 use runtime_data::RuntimeData;
-use rustix::runtime::{Fork, fork};
+use rustix::runtime::{self, Fork};
 use smithay_client_toolkit::reexports::client::{Connection, globals::registry_queue_init};
 use traits::{Contains, ToLocal};
 use types::{Args, Config, ExitState, Monitor, Rect, SaveLocation, Selection};
@@ -72,8 +72,8 @@ fn main() {
 
         // Fork to serve copy requests
         if args.copy {
-            match unsafe { fork() } {
-                Ok(Fork::Parent(_)) => {
+            match unsafe { runtime::kernel_fork() } {
+                Ok(Fork::ParentOf(_)) => {
                     info!("Forked to serve copy requests")
                 }
                 Ok(Fork::Child(_)) => {

@@ -10,7 +10,7 @@ edition = "2024"
 wgpu = "24"
 wgpu_text = "0"
 
-rustix = { version = "0", features = ["runtime"] }
+rustix = { version = "1", features = ["runtime"] }
 wayland-client = { version = "0" }
 wayland-backend = { version = "0", features = ["client_system"] }
 smithay-client-toolkit = "0"
@@ -31,4 +31,4 @@ regex = "1"
 hyprland = { git = "https://github.com/hyprland-community/hyprland-rs" }
 strum = { version = "0", features = ["derive", "strum_macros"] }
 
-libwayshot = { git = "https://github.com/Gigas002/wayshot", branch = "bump-deps" }
+libwayshot = { git = "https://github.com/waycrate/wayshot" }
