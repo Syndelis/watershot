@@ -1,7 +1,7 @@
 use log::info;
 use smithay_client_toolkit::{
     delegate_pointer,
-    reexports::client::{protocol::wl_pointer, Connection, QueueHandle},
+    reexports::client::{Connection, QueueHandle, protocol::wl_pointer},
     seat::pointer::{PointerEvent, PointerEventKind, PointerHandler},
 };
 

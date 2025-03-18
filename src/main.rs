@@ -5,8 +5,8 @@ use clap::Parser;
 use image::{DynamicImage, ImageFormat};
 use log::{error, info};
 use runtime_data::RuntimeData;
-use rustix::runtime::{fork, Fork};
-use smithay_client_toolkit::reexports::client::{globals::registry_queue_init, Connection};
+use rustix::runtime::{Fork, fork};
+use smithay_client_toolkit::reexports::client::{Connection, globals::registry_queue_init};
 use traits::{Contains, ToLocal};
 use types::{Args, Config, ExitState, Monitor, Rect, SaveLocation, Selection};
 use wl_clipboard_rs::copy;
@@ -95,7 +95,9 @@ fn main() {
 fn gui(args: &Args) -> Option<DynamicImage> {
     let conn = Connection::connect_to_env();
     if conn.is_err() {
-        log::error!("Could not connect to the Wayland server, make sure you run watershot within a Wayland session!");
+        log::error!(
+            "Could not connect to the Wayland server, make sure you run watershot within a Wayland session!"
+        );
         std::process::exit(1);
     }
 

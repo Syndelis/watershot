@@ -2,8 +2,8 @@ use log::info;
 use smithay_client_toolkit::{
     delegate_keyboard,
     reexports::client::{
-        protocol::{wl_keyboard, wl_surface},
         Connection, QueueHandle,
+        protocol::{wl_keyboard, wl_surface},
     },
     seat::keyboard::{KeyEvent, KeyboardHandler, Keysym, Modifiers},
 };

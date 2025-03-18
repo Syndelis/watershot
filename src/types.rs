@@ -7,22 +7,24 @@ use serde::Deserialize;
 use smithay_client_toolkit::{
     output::OutputInfo,
     shell::{
-        wlr_layer::{Anchor, KeyboardInteractivity, Layer, LayerSurface},
         WaylandSurface,
+        wlr_layer::{Anchor, KeyboardInteractivity, Layer, LayerSurface},
     },
 };
 use wayland_client::{
-    protocol::{wl_output, wl_surface},
     Connection, Proxy, QueueHandle,
+    protocol::{wl_output, wl_surface},
 };
 use wgpu::rwh::{
     DisplayHandle, HasDisplayHandle, HasWindowHandle, RawDisplayHandle, RawWindowHandle,
     WaylandDisplayHandle, WaylandWindowHandle, WindowHandle,
 };
 
-use crate::{rendering::MonSpecificRendering, runtime_data::RuntimeData, window::WindowDescriptor};
-
-use crate::window::search::WindowSearchParam;
+use crate::{
+    rendering::MonSpecificRendering,
+    runtime_data::RuntimeData,
+    window::{WindowDescriptor, search::WindowSearchParam},
+};
 
 #[derive(Parser, Clone, Debug)]
 #[command(author, version, about)]

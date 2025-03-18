@@ -1,7 +1,7 @@
 use smithay_client_toolkit::{
     compositor::CompositorHandler,
     delegate_compositor,
-    reexports::client::{protocol::wl_surface, Connection, QueueHandle},
+    reexports::client::{Connection, QueueHandle, protocol::wl_surface},
 };
 
 use crate::{runtime_data::RuntimeData, types::MonitorIdentification};

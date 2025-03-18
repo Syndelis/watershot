@@ -1,8 +1,8 @@
 use log::info;
 use smithay_client_toolkit::{
     delegate_seat,
-    reexports::client::{protocol::wl_seat, Connection, QueueHandle},
-    seat::{pointer::ThemeSpec, Capability, SeatHandler, SeatState},
+    reexports::client::{Connection, QueueHandle, protocol::wl_seat},
+    seat::{Capability, SeatHandler, SeatState, pointer::ThemeSpec},
 };
 
 use crate::runtime_data::RuntimeData;

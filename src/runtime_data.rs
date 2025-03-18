@@ -8,18 +8,18 @@ use smithay_client_toolkit::{
     compositor::CompositorState,
     output::OutputState,
     reexports::client::{
+        QueueHandle,
         globals::GlobalList,
         protocol::{wl_keyboard, wl_pointer},
-        QueueHandle,
     },
     registry::RegistryState,
-    seat::{pointer::ThemedPointer, SeatState},
+    seat::{SeatState, pointer::ThemedPointer},
     shell::wlr_layer::LayerShell,
     shm::Shm,
 };
 
 use crate::{
-    handles,
+    Config, Monitor, Rect, Selection, handles,
     rendering::Renderer,
     traits::{Contains, DistanceTo},
     types::{
@@ -27,10 +27,9 @@ use crate::{
         SelectionState,
     },
     window::{
-        hyprland::HyprlandBackend, CompositorBackend, FindWindowExt, InitializeBackend,
-        WindowDescriptor,
+        CompositorBackend, FindWindowExt, InitializeBackend, WindowDescriptor,
+        hyprland::HyprlandBackend,
     },
-    Config, Monitor, Rect, Selection,
 };
 
 /// The main data worked on at runtime
@@ -123,30 +122,40 @@ impl RuntimeData {
                 let windows = compositor_backend.get_all_windows();
 
                 let selection = {
-                    match args.window_search.take() { Some(search_param) => {
-                        Selection::from_window(windows.find_by_search_param(search_param).cloned())
-                    } _ => if args.window_under_cursor {
-                        let mouse_pos = compositor_backend.get_mouse_position();
-                        Selection::from_window(windows.find_by_position(&mouse_pos).cloned())
-                    } else if args.active_window {
-                        Selection::from_window(compositor_backend.get_focused())
-                    } else {
-                        Selection::default()
-                    }}
+                    match args.window_search.take() {
+                        Some(search_param) => Selection::from_window(
+                            windows.find_by_search_param(search_param).cloned(),
+                        ),
+                        _ => {
+                            if args.window_under_cursor {
+                                let mouse_pos = compositor_backend.get_mouse_position();
+                                Selection::from_window(
+                                    windows.find_by_position(&mouse_pos).cloned(),
+                                )
+                            } else if args.active_window {
+                                Selection::from_window(compositor_backend.get_focused())
+                            } else {
+                                Selection::default()
+                            }
+                        }
+                    }
                 };
 
                 if !args.auto_capture {
                     (selection, windows, ExitState::None)
-                } else { match selection.flattened() { Selection::Rectangle(Some(rect_sel)) => {
-                    (
-                        selection,
-                        windows,
-                        ExitState::ExitWithSelection(rect_sel.extents.to_rect()),
-                    )
-                } _ => {
-                    // TODO: Auto-capture for monitors
-                    (selection, windows, ExitState::None)
-                }}}
+                } else {
+                    match selection.flattened() {
+                        Selection::Rectangle(Some(rect_sel)) => (
+                            selection,
+                            windows,
+                            ExitState::ExitWithSelection(rect_sel.extents.to_rect()),
+                        ),
+                        _ => {
+                            // TODO: Auto-capture for monitors
+                            (selection, windows, ExitState::None)
+                        }
+                    }
+                }
             };
         }
 

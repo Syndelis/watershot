@@ -1,7 +1,7 @@
 use smithay_client_toolkit::{
     delegate_output,
     output::{OutputHandler, OutputState},
-    reexports::client::{protocol::wl_output, Connection, QueueHandle},
+    reexports::client::{Connection, QueueHandle, protocol::wl_output},
 };
 
 use crate::runtime_data::RuntimeData;
