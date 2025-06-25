@@ -106,8 +106,7 @@ impl RuntimeData {
                 label: None,
                 required_features: wgpu::Features::TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES,
                 ..Default::default()
-            },
-            None,
+            }
         ))
         .unwrap();
 
