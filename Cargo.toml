@@ -35,5 +35,5 @@ pollster = "0.3.0"
 bytemuck = { version = "1.13.1", features = ["derive"] }
 wgpu_text = "0.8.3"
 regex = "1.9.1"
-hyprland = { git = "https://github.com/hyprland-community/hyprland-rs" }
+hyprland = { git = "https://github.com/hyprland-community/hyprland-rs.git", commit = "125a4e5a98aafb5c9b53655de03d72f6f35aa694" }
 strum = { version = "0.25.0", features = ["derive", "strum_macros"] }
