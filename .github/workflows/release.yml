@@ -19,7 +19,7 @@ jobs:
           toolchain: 1.90.0
 
       - name: Install compile-time dependencies
-        uses: syndelis/cache-apt-pkgs-action@f3b6f83
+        uses: syndelis/cache-apt-pkgs-action@f3b6f83545eae209de57d2bcdca870c646b557d7
         with:
           packages: libwayland-dev
           version: 1.0
