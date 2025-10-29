@@ -18,6 +18,10 @@ jobs:
         with:
           toolchain: 1.90.0
 
+      - name: Install compile-time dependencies
+        shell: bash
+        run: apt-get update && apt-get install libwayland-dev -y
+
       - name: Compile watershot
         shell: bash
         run: cargo build --locked --release
