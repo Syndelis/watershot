@@ -1,0 +1,38 @@
+on:
+  release:
+    types:
+      - published
+
+env:
+  CACHE_ON_FAILURE: true
+
+jobs:
+  build:
+    permissions: write-all
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Rust Toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          toolchain: 1.90.0
+
+      - name: Install compile-time dependencies
+        shell: bash
+        run: sudo apt-get update && sudo apt-get install -y libwayland-dev libfontconfig-dev libxkbcommon-dev
+
+      - name: Compile watershot
+        shell: bash
+        env:
+          RUSTFLAGS: '-A warnings'
+        run: cargo build --locked --release
+
+      - name: Attach to Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.event.release.tag_name }} ./target/release/watershot
+
