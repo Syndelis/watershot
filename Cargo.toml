@@ -7,28 +7,28 @@ edition = "2024"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-wgpu = "25"
-wgpu_text = "0"
+wgpu = "=25.0.2"
+wgpu_text = "=0.9.3"
 
-rustix = { version = "1", features = ["runtime"] }
-wayland-client = { version = "0" }
-wayland-backend = { version = "0", features = ["client_system"] }
-smithay-client-toolkit = "0"
-wl-clipboard-rs = { version = "0" }
+rustix = { version = "=1.0.7", features = ["runtime"] }
+wayland-client = { version = "=0.31.10" }
+wayland-backend = { version = "=0.3.10", features = ["client_system"] }
+smithay-client-toolkit = "=0.19.2"
+wl-clipboard-rs = { version = "=0.9.0" }
 
-image = { version = "0", default-features = false, features = ["pnm", "jpeg", "png", "webp", "avif"] }
-ron = "0"
-serde = { version = "1", features = ["derive"] }
-fontconfig = "0"
-clap = { version = "4", features = ["derive"] }
-chrono = "0"
-env_logger = { version = "0", default-features = false, features = ["auto-color"] }
-log = "0"
-pollster = "0"
-bytemuck = { version = "1", features = ["derive"] }
-regex = "1"
+image = { version = "=0.25.6", default-features = false, features = ["pnm", "jpeg", "png", "webp", "avif"] }
+ron = "0.10.1"
+serde = { version = "1.0.219", features = ["derive"] }
+fontconfig = "=0.10.0"
+clap = { version = "=4.5.40", features = ["derive"] }
+chrono = "=0.4.41"
+env_logger = { version = "=0.11.8", default-features = false, features = ["auto-color"] }
+log = "=0.4.27"
+pollster = "=0.4.0"
+bytemuck = { version = "=1.23.1", features = ["derive"] }
+regex = "=1.11.1"
 # hyprland = "0.4.0-alpha.2"
-hyprland = { git = "https://github.com/hyprland-community/hyprland-rs" }
-strum = { version = "0", features = ["derive", "strum_macros"] }
+hyprland = { git = "https://github.com/hyprland-community/hyprland-rs.git", commit = "552c7735" }
+strum = { version = "0.27.1", features = ["derive", "strum_macros"] }
 
-libwayshot = { git = "https://github.com/waycrate/wayshot" }
+libwayshot = { git = "https://github.com/waycrate/wayshot.git", commit = "eeb5e5e9" }
