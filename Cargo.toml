@@ -27,8 +27,7 @@ log = "=0.4.27"
 pollster = "=0.4.0"
 bytemuck = { version = "=1.23.1", features = ["derive"] }
 regex = "=1.11.1"
-# hyprland = "0.4.0-alpha.2"
-hyprland = { git = "https://github.com/hyprland-community/hyprland-rs.git", commit = "552c7735" }
+hyprland = "0.4.0-alpha.3"
 strum = { version = "0.27.1", features = ["derive", "strum_macros"] }
 
 libwayshot = { git = "https://github.com/waycrate/wayshot.git", commit = "eeb5e5e9" }
