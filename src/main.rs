@@ -2,7 +2,7 @@ use std::io::{self, Cursor, Write};
 
 use chrono::Local;
 use clap::Parser;
-use image::{DynamicImage, ImageFormat};
+use image::{ImageFormat, RgbaImage};
 use log::{error, info};
 use runtime_data::RuntimeData;
 use rustix::runtime::{self, Fork};
@@ -92,7 +92,7 @@ fn main() {
     }
 }
 
-fn gui(args: &Args) -> Option<DynamicImage> {
+fn gui(args: &Args) -> Option<RgbaImage> {
     let conn = Connection::connect_to_env();
     if conn.is_err() {
         log::error!(
@@ -160,19 +160,24 @@ fn gui(args: &Args) -> Option<DynamicImage> {
                 }) {
                     Some(mon) => {
                         let rect = rect.to_local(&mon.rect);
-                        mon.image.crop_imm(
+                        image::imageops::crop_imm(
+                            &mon.image,
                             rect.x as u32,
                             rect.y as u32,
                             rect.width as u32,
                             rect.height as u32,
                         )
+                        .to_image()
+                        .into()
                     }
-                    None => runtime_data.image.crop_imm(
+                    None => image::imageops::crop_imm(
+                        &runtime_data.image,
                         (rect.x as f32 * runtime_data.scale_factor) as u32,
                         (rect.y as f32 * runtime_data.scale_factor) as u32,
                         (rect.width as f32 * runtime_data.scale_factor) as u32,
                         (rect.height as f32 * runtime_data.scale_factor) as u32,
-                    ),
+                    )
+                    .to_image(),
                 };
 
                 return Some(image);

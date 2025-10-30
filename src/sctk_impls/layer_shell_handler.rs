@@ -62,7 +62,7 @@ impl LayerShellHandler for RuntimeData {
             &monitor.rect,
             &monitor.output_info,
             cap.formats[0],
-            monitor.image.to_rgba8(),
+            &monitor.image,
             self,
         );
 

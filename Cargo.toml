@@ -16,7 +16,7 @@ wayland-backend = { version = "=0.3.10", features = ["client_system"] }
 smithay-client-toolkit = "=0.19.2"
 wl-clipboard-rs = { version = "=0.9.0" }
 
-image = { version = "=0.25.6", default-features = false, features = ["pnm", "jpeg", "png", "webp", "avif"] }
+image = { version = "=0.24.9", default-features = false, features = ["pnm", "jpeg", "png", "webp"] }
 ron = "0.10.1"
 serde = { version = "1.0.219", features = ["derive"] }
 fontconfig = "=0.10.0"
@@ -30,4 +30,4 @@ regex = "=1.11.1"
 hyprland = "0.4.0-alpha.3"
 strum = { version = "0.27.1", features = ["derive", "strum_macros"] }
 
-libwayshot = { git = "https://github.com/waycrate/wayshot.git", commit = "eeb5e5e9" }
+libwayshot = "=0.3.0"

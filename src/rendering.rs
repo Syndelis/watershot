@@ -398,7 +398,7 @@ impl MonSpecificRendering {
         rect: &Rect<i32>,
         info: &OutputInfo,
         format: wgpu::TextureFormat,
-        background: RgbaImage,
+        background: &RgbaImage,
         runtime_data: &RuntimeData,
     ) -> Self {
         let bg_tex_size = wgpu::Extent3d {

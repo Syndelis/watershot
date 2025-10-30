@@ -1,7 +1,7 @@
 use std::{env, fs};
 
 use clap::{Parser, Subcommand};
-use image::DynamicImage;
+use image::RgbaImage;
 use libwayshot::WayshotConnection;
 use serde::Deserialize;
 use smithay_client_toolkit::{
@@ -140,7 +140,7 @@ pub struct Monitor {
     pub surface: wgpu::Surface<'static>,
     pub output_info: OutputInfo,
     pub rect: Rect<i32>,
-    pub image: DynamicImage,
+    pub image: RgbaImage,
     /// The wayland scale factor for this monitor
     pub rendering: Option<MonSpecificRendering>,
 }

@@ -1,7 +1,7 @@
 use std::fs;
 
 use fontconfig::Fontconfig;
-use image::DynamicImage;
+use image::RgbaImage;
 
 use libwayshot::WayshotConnection;
 use smithay_client_toolkit::{
@@ -55,7 +55,7 @@ pub struct RuntimeData {
     pub monitors: Vec<Monitor>,
     pub config: Config,
     pub font: wgpu_text::glyph_brush::ab_glyph::FontArc,
-    pub image: DynamicImage,
+    pub image: RgbaImage,
     pub exit: ExitState,
 
     pub instance: wgpu::Instance,
@@ -101,13 +101,11 @@ impl RuntimeData {
             }))
             .unwrap();
 
-        let (device, queue) = pollster::block_on(adapter.request_device(
-            &wgpu::DeviceDescriptor {
-                label: None,
-                required_features: wgpu::Features::TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES,
-                ..Default::default()
-            }
-        ))
+        let (device, queue) = pollster::block_on(adapter.request_device(&wgpu::DeviceDescriptor {
+            label: None,
+            required_features: wgpu::Features::TEXTURE_ADAPTER_SPECIFIC_FORMAT_FEATURES,
+            ..Default::default()
+        }))
         .unwrap();
 
         let compositor_backend = Self::get_preferred_backend();
